@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolChat - 이벤트</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            padding-top: 70px;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #f0f0f0;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #3498db;
+        }
+
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-right .auth-btn {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        .header-right .auth-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .header-right .logout-btn {
+            background: #e74c3c;
+        }
+
+        .header-right .logout-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .header-right .chat-btn {
+            background: #3498db;
+        }
+
+        .header-right .chat-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .header-right .main-page-btn {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            padding: 8px 15px;
+        }
+
+        .header-right .main-page-btn:hover {
+            background: linear-gradient(90deg, #4aa9e0, #3a91c8);
+        }
+
+        .header-profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .header-profile-pic svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .header-profile-pic svg path {
+            fill: #8e44ad;
+        }
+
+        .header-username {
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        main {
+            padding: 40px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #f0f0f0;
+        }
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .event-card {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .event-content {
+            padding: 20px;
+        }
+
+        .event-content h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .event-content p {
+            font-size: 15px;
+            color: #bbb;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .event-content .event-date {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .event-content .details-btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+        }
+
+        .event-content .details-btn:hover {
+            background-color: #2980b9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 5%;
+            background-color: #1e1e1e;
+            border-top: 1px solid #333;
+            color: #888;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="main.html" class="logo">School<span>Chat</span></a>
+
+        <nav class="nav-links">
+            <a href="chat_dashboard.html">채팅하기</a>
+            <a href="#">커뮤니티</a>
+            <a href="event.html" class="active">이벤트</a>
+        </nav>
+
+        <div class="header-right" id="header-auth-buttons">
+        </div>
+    </header>
+
+    <main>
+        <h1 class="page-title">진행중인 이벤트</h1>
+
+        <div class="event-grid">
+            <article class="event-card">
+                <div class="event-image">
+                    <img src="pink-553149_1280.jpg" alt="신규 가입 환영 이벤트 배너">
+                </div>
+                <div class="event-content">
+                    <h3>신규 가입 환영 이벤트! 🎉</h3>
+                    <p>지금 바로 SchoolChat에 가입하고 채팅을 시작하면 특별한 시간연장 티켓를 드려요!</p>
+                    <span class="event-date">기간: 2025.11.01 ~ 2025.11.30</span>
+                    <a href="#" class="details-btn">자세히 보기</a>
+                </div>
+            </article>
+        </div>
+        <form id = "evetform" method="POST" action="/event"></form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SchoolChat. All rights reserved.</p>
+        <p>개인정보처리방침 | 이용약관</p>
+    </footer>
+
+    <script>
+        function decodeToken(token) {
+            try {
+                const tokenValue = token.split(' ')[1];
+                const base64Url = tokenValue.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function logout() {
+            if (confirm("정말로 로그아웃하시겠습니까?")) {
+                localStorage.removeItem('token');
+                alert('로그아웃되었습니다.');
+                window.location.href = 'main.html';
+            }
+        }
+
+        window.onload = function () {
+            const token = localStorage.getItem('token');
+            const headerAuthButtons = document.getElementById('header-auth-buttons');
+            let userId = '사용자';
+
+            if (token && token.startsWith('Bearer ')) {
+                const payload = decodeToken(token);
+                if (payload && payload.userId) {
+                    userId = payload.userId;
+                }
+
+                headerAuthButtons.innerHTML = `
+                    <a href="main.html" class="auth-btn main-page-btn">메인으로</a>
+                    <div class="header-profile-pic">
+                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z"></path></svg>
+                    </div>
+                    <span class="header-username">${userId} 님</span>
+                    <a href="chat_dashboard.html" class="auth-btn chat-btn">채팅 시작</a>
+                    <button onclick="logout()" class="auth-btn logout-btn">로그아웃</button>
+                `;
+
+            } else {
+                headerAuthButtons.innerHTML = `
+                    <a href="login.html" class="auth-btn login-btn">Login</a>
+                    <a href="signup.html" class="auth-btn login-btn">Sign Up</a>
+                `;
+            }
+        };
+    </script>
+</body>
+
+</html>

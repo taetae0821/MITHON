@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랜덤 채팅 - 새로운 친구를 만나보세요</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: #121212; 
+            color: #ffffff;
+            padding-top: 70px; 
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px; 
+            background-color: #1e1e1e;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000; 
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #f0f0f0;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #3498db; 
+        }
+
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-right .auth-btn {
+            background: linear-gradient(90deg, #3498db, #2980b9); 
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-left: 10px; 
+        }
+
+        .header-right .auth-btn:hover {
+            transform: scale(1.05); 
+        }
+        .header-right .logout-btn {
+            background: #e74c3c; 
+        }
+        .header-right .logout-btn:hover {
+            background-color: #c0392b; 
+        }
+        
+        .header-right .chat-btn {
+            background: #3498db; 
+        }
+        .header-right .chat-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .header-profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .header-profile-pic svg {
+            width: 24px;
+            height: 24px;
+        }
+        .header-profile-pic svg path {
+            fill: #3498db;
+        }
+        
+        .header-username {
+            font-weight: bold;
+            color: #3498db; 
+        }
+
+        .hero {
+            min-height: calc(100vh - 70px); 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: linear-gradient(135deg, #2c3e50, #1a2937);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ececec, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .hero .cta-button {
+            background: linear-gradient(90deg, #3498db, #2980b9); 
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hero .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+        
+        .content-section {
+            padding: 100px 5%; 
+            max-width: 1200px;
+            margin: 0 auto; 
+            display: flex;
+            align-items: center;
+            gap: 50px; 
+        }
+
+        .content-section:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .text-content {
+            flex: 1; 
+        }
+
+        .text-content h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #f0f0f0;
+        }
+
+        .text-content .highlight {
+            color: #3498db; 
+        }
+
+        .text-content p {
+            font-size: 18px;
+            color: #bbb;
+            line-height: 1.7; 
+        }
+
+        .image-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-content img {
+            width: 100%;
+            max-width: 500px; 
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 5%;
+            background-color: #1e1e1e;
+            border-top: 1px solid #333;
+            color: #888;
+            margin-top: 50px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="main.html" class="logo">School<span>Chat</span></a>
+
+        <nav class="nav-links">
+            <a href="/chat">채팅하기</a>
+            <a href="#">커뮤니티</a>
+            <a href="event.html">이벤트</a>
+        </nav>
+
+        <div class="header-right" id="header-auth-buttons">
+            </div>
+    </header>
+
+    <main>
+
+        <section class="hero">
+            <h1>랜덤 채팅</h1>
+            <p>버튼을 클릭해서 다양한 연령대의 친구들과 대화를 시작하세요.</p>
+            
+            <div id="hero-cta-button">
+                </div>
+        </section>
+
+
+        <section class="content-section">
+            <div class="text-content">
+                <h2>여러<span class="highlight"> 학교의 친구</span>를<br>온라인에서 만나봐요!</h2>
+                <p>
+                    같은 학교 친구를 찾고 있나요? RandChat에서는
+                    간단한 인증을 통해 여러 학교 학생들과 안전하게
+                    대화할 수 있습니다. 낯선 사람 걱정 없이
+                    새로운 캠퍼스 친구를 사귀어보세요.
+                </p>
+            </div>
+            <div class="image-content">
+                <img src="https://via.placeholder.com/500x350/3498db/ffffff?text=School+Friends" alt="학교 친구 이미지">
+            </div>
+        </section>
+
+
+        <section class="content-section">
+            <div class="text-content">
+                <h2>관심사 기반<br><span class="highlight">주제 채팅</span></h2>
+                <p>
+                    MBTI, 게임, 영화, K-POP!
+                    공통의 관심사를 가진 사람들과
+                    더 깊은 대화를 나눠보세요.
+                    해시태그를 선택하고 나와 잘 맞는
+                    대화 상대를 즉시 찾을 수 있습니다.
+                </p>
+            </div>
+            <div class="image-content">
+                <img src="https://via.placeholder.com/500x350/2980b9/ffffff?text=Topic+Chat" alt="관심사 채팅 이미지">
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 RandChat. All rights reserved.</p>
+        <p>개인정보처리방침 | 이용약관</p>
+    </footer>
+
+    <script>
+        function decodeToken(token) {
+            try {
+                const tokenValue = token.split(' ')[1];
+                const base64Url = tokenValue.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function logout() {
+            if (confirm("정말로 로그아웃하시겠습니까?")) {
+                localStorage.removeItem('token');
+                alert('로그아웃되었습니다.');
+                window.location.href = '/main'; // chat.html -> /main 경로로 변경
+            }
+        }
+
+        window.onload = function() {
+            const token = localStorage.getItem('token');
+            const headerAuthButtons = document.getElementById('header-auth-buttons');
+            const heroCtaButton = document.getElementById('hero-cta-button');
+
+            let userId = '사용자';
+
+            if (token && token.startsWith('Bearer ')) {
+                const payload = decodeToken(token);
+                if (payload && payload.userId) {
+                    userId = payload.userId;
+                }
+
+                headerAuthButtons.innerHTML = `
+                    <div class="header-profile-pic">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm0 14c-2.03 0-4.43-.82-6.14-2.88C7.55 15.8 9.68 15 12 15s4.45.8 6.14 2.12C16.43 19.18 14.03 20 12 20z"></path></svg>
+                    </div>
+                    <span class="header-username">${userId} 님</span>
+                    <a href="/chat" class="auth-btn chat-btn">채팅 시작</a>
+                    <button onclick="logout()" class="auth-btn logout-btn">로그아웃</button>
+                `;
+
+                heroCtaButton.innerHTML = `
+                    <a href="/chat" class="cta-button">채팅방으로 이동!</a>
+                `;
+
+            } else {
+                headerAuthButtons.innerHTML = `
+                    <a href="/login" class="auth-btn login-btn">Login</a>
+                    <a href="/signup" class="auth-btn login-btn">Sign Up</a>
+                `;
+                
+                heroCtaButton.innerHTML = `
+                    <a href="/login" class="cta-button">지금 로그인하기</a>
+                `;
+            }
+        };
+    </script>
+
+</body>
+</html>

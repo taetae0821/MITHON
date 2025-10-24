@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>랜덤 채팅</title>
+    <style>
+        body {
+            background-color: #1e1e2f;
+            color: #f0f0f0;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        #chat-log {
+            height: 300px;
+            border: 1px solid #555;
+            overflow-y: scroll;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #2c2c44;
+            border-radius: 10px;
+        }
+
+        .message {
+            margin-bottom: 5px;
+        }
+
+        .system-info {
+            color: #aaa;
+            font-style: italic;
+            font-size: 0.8em;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: #3a3a5c;
+            color: #fff;
+            margin-right: 5px;
+        }
+
+        input::placeholder {
+            color: #bbb;
+        }
+
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4a90e2;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #357ab8;
+        }
+    </style>
+</head>
+<body>
+    <h2>랜덤 채팅</h2>
+    <div class="system-info"></div>
+   
+    <div id="chat-log"></div>
+    
+    <input type="text" id="sender-input" placeholder="이름 (Sender)">
+    <input type="text" id="message-input" placeholder="메시지 내용">
+    <button onclick="sendMessage()">보내기</button>
+
+    <form id="chatform" method="POST" action="/chat"></form>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>

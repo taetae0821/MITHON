@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CamTalk - 친구 찾는 중...</title>
+  <style>
+    /* CSS는 그대로 유지됩니다. */
+    body {
+      background: #f5f6ff;
+      font-family: "Noto Sans KR", sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    /* 전체 로딩 박스 */
+    .loader-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      position: relative;
+    }
+
+    /* 사용자/익명 아이콘 */
+    .icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #4a47a3;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .icon.anon {
+      background: #b0b3ff;
+    }
+
+    /* 동그라미 물결 부분 */
+    .dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #4a47a3;
+      animation: bounce 1.2s ease-in-out infinite;
+    }
+
+    .dot:nth-child(1) {
+      animation-delay: 0s;
+    }
+    .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    /* 동그라미 위아래로 부드럽게 흔들리는 효과 */
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-15px);
+        opacity: 0.7;
+      }
+    }
+
+    /* 안내 문구 */
+    .loading-text {
+      margin-top: 40px;
+      font-size: 20px;
+      color: #4a47a3;
+      font-weight: 600;
+      animation: fadeInOut 2s ease-in-out infinite;
+      text-align: center;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* 배경 효과 (부드럽게 떠다니는 원) */
+    .bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.12;
+      background: #4a47a3;
+      animation: float 6s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    .bg-circle.bg-1 {
+      width: 150px;
+      height: 150px;
+      top: 20%;
+      left: 15%;
+      animation-delay: 0s;
+    }
+    .bg-circle.bg-2 {
+      width: 220px;
+      height: 220px;
+      bottom: 10%;
+      right: 25%;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(-30px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-circle bg-1" aria-hidden="true"></div>
+  <div class="bg-circle bg-2" aria-hidden="true"></div>
+
+  <div class="loader-container" role="status" aria-live="polite" aria-label="친구를 찾는 중">
+    <div class="icon user" aria-hidden="true">나</div>
+    <div class="dots" aria-hidden="true">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <div class="icon anon" aria-hidden="true">?</div>
+  </div>
+
+  <div class="loading-text" id="loadingText">랜덤 친구를 찾는 중...</div>
+  <form id = "searchform" method="search.html" action="/search"></form>
+
+  <script>
+  // DOM이 준비된 후 실행 (안전)
+  document.addEventListener('DOMContentLoaded', () => {
+    const messages = [
+      "랜덤 친구를 찾는 중...",
+      "연결 가능한 상대를 탐색하고 있어요...",
+      "조금만 기다려주세요...",
+      "새로운 대화를 준비 중이에요...",
+      "같은 학교 친구를 찾는 중...",
+      "안전한 매칭을 확인 중이에요..."
+    ];
+
+    const textEl = document.getElementById('loadingText');
+    let i = 0;
+
+    // 1. 안내 문구 순환 (타이머 ID를 보관해서 필요 시 정리 가능)
+    const intervalId = setInterval(() => {
+      i = (i + 1) % messages.length;
+      if (textEl) textEl.textContent = messages[i];
+    }, 2500);
+
+    // 2. 매칭 확인 및 채팅 페이지로 리다이렉트
+    const CHAT_PAGE_URL = 'chat.html';
+
+    let cancelled = false; // 언마운트(탭 전환 등) 시 작업 중단용
+
+    async function checkMatchStatus() {
+      try {
+        // --- 데모를 위한 가상 매칭 로직 (5초 후 성공 가정) ---
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        if (cancelled) return;
+
+        const dummyOpponent = {
+          nickname: "친절한 사자",
+          school: "대성고등학교"
+        };
+
+        // localStorage 접근 시 예외 처리
+        try {
+          localStorage.setItem('opponentNickname', dummyOpponent.nickname);
+          localStorage.setItem('opponentSchool', dummyOpponent.school);
+        } catch (storageErr) {
+          // localStorage가 막혀 있거나 저장 실패한 경우(예: 개인 정보 보호 모드)
+          console.warn('localStorage set failed', storageErr);
+        }
+
+        // 이동 전에 타이머 정리
+        clearInterval(intervalId);
+
+        // 페이지 이동 (브라우저가 허용하면)
+        if (!cancelled) {
+          window.location.href = CHAT_PAGE_URL;
+        }
+      } catch (err) {
+        console.error('매칭 중 오류 발생:', err);
+        // 사용자에게 알림 문구로 표시
+        if (textEl) textEl.textContent = '오류가 발생했습니다. 다시 시도해 주세요.';
+        clearInterval(intervalId);
+      }
+    }
+
+    // 취소 처리: 페이지 언로드/숨김 시 불필요한 작업 중단
+    function cancelMatching() {
+      cancelled = true;
+      clearInterval(intervalId);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        // 탭을 떠나면 불필요한 매칭 대기 취소
+        cancelMatching();
+      }
+    });
+
+    window.addEventListener('beforeunload', () => {
+      cancelMatching();
+    });
+
+    // 시작
+    checkMatchStatus();
+  });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입을 환영합니다</title>
+    <style>
+        #id, #school{
+            border: 1px solid #9ca2f8;
+        }
+        #name{
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+            border: 1px solid #9ca2f8;
+        }
+        #birth_day{
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            border: 1px solid #9ca2f8;
+        }
+        #email{
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+            border: 1px solid #9ca2f8;
+        }
+        #password{
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
+            border: 1px solid #9ca2f8;
+        }
+        body {
+            background-color: #e5e5f0; 
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .sign {
+            background-color: #ffffff;
+            padding: 40px 60px; 
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 450px; 
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 40px; 
+            font-size: 40px; 
+            font-weight: 900;
+            color: #333;
+            letter-spacing: 1px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px; 
+            font-weight: bold;
+            font-size: 15px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #f7f7f7;
+            margin-bottom: 15px; 
+        }
+
+        input:focus {
+            border-color: #8c73c0;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(140, 115, 192, 0.2);
+        }
+
+        .input-row {
+            display: flex;
+            gap: 20px;
+            align-items: flex-end;
+            margin-bottom: 15px; 
+        }
+        .input-row > div {
+            flex: 1;
+        }
+        
+        .gender-selection {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .gender-btn {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 44px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #f7f7f7;
+        }
+
+        .gender-btn.selected {
+            background-color: #8c73c0;
+            border-color: #8c73c0;
+        }
+        
+        .gender-btn.selected svg path {
+            stroke: white; 
+        }
+
+        .gender-btn svg {
+            width: 24px; 
+            height: 24px;
+            transition: fill 0.2s ease;
+        }
+        
+        .gender-btn svg path {
+            stroke: #555; 
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: flex-end; 
+            align-items: center;
+            margin-top: 50px;
+            gap: 25px;
+        }
+
+        .btn {
+            width: 150px;
+            padding: 12px;
+            background-color: #8c73c0; 
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #a38cd3;
+            transform: translateY(-1px);
+        }
+
+        .login-link a {
+            color: #555;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .login-link a:hover {
+            color: #8c73c0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sign">
+        <h1>SIGN UP</h1>
+        <form id="signForm" method="POST" action="/signup">
+            
+            <div class="input-row">
+                <div class="name-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Name Here" required style="margin-bottom: 0;"> 
+                </div>
+                <div class="gender-group">
+                    <label for="gender">Gender</label>
+                    
+                    <div class="gender-selection">
+                        <div class="gender-btn" data-gender="female">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="currentColor" d="M12 9m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0"></path>
+                                <path stroke="currentColor" d="M12 14l0 8"></path>
+                                <path stroke="currentColor" d="M9 19l6 0"></path>
+                            </svg>
+                        </div>
+                        <div class="gender-btn" data-gender="male">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="currentColor" d="M10 14m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0"></path>
+                                <path stroke="currentColor" d="M19 5l-5.4 5.4"></path>
+                                <path stroke="currentColor" d="M19 5l-4 0"></path>
+                                <path stroke="currentColor" d="M19 5l0 4"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <input type="hidden" id="gender" name="gender" required>
+                </div>
+            </div>
+
+            <label for="birth_day">Birth Day</label>
+            <input type="text" id="birth_day" name="birth_day" placeholder="Birth Here ( YYYY / MM / DD )" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Email Here" required>
+
+            <label for="id">Id ( Nickname )</label>
+            <input type="text" id="id" name="id" placeholder="Id Here" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password Here" required>
+
+            <label for="school">School</label>
+            <input type="text" id="school" name="school" placeholder="School Here" required>
+            
+            <div class="btn-group">
+                <div class="login-link">
+                    <a href="login.html">Log In</a>
+                </div>
+                <button type="submit" class="btn">Sign Up</button>
+            </div>
+            
+        </form>
+    </div>
+
+    <script>
+        const signForm = document.getElementById('signForm');
+        const genderBtns = document.querySelectorAll('.gender-btn');
+        const genderInput = document.getElementById('gender');
+
+        const birthDayInput = document.getElementById('birth_day');
+
+        genderBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                genderBtns.forEach(b => b.classList.remove('selected')); 
+                this.classList.add('selected'); 
+                genderInput.value = this.getAttribute('data-gender'); 
+            });
+        });
+
+        birthDayInput.addEventListener('input', function(event) {
+            let value = event.target.value;
+            let filteredValue = value.replace(/[^0-9/]/g, '');
+            event.target.value = filteredValue;
+        });
+
+
+        signForm.addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            
+            if (!genderInput.value) {
+                alert('성별을 선택해주세요.'); 
+                return; 
+            }
+
+            const birthDayValue = birthDayInput.value;
+            const hasNumber = /[0-9]/.test(birthDayValue); 
+
+            if (!hasNumber) {
+                alert('생년월일에 숫자를 반드시 입력해야 합니다.');
+                return; 
+            }
+
+
+            alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
+            
+            window.location.href = 'login.html';
+        });
+    </script>
+    </body>
+</html>

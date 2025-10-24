@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 페이지</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        
+        /* UI 이미지에 맞춰 배경색, 폰트, 정렬 스타일 수정 */
+    
+        body {
+            /* 연한 회색/보라색 계열 배경색 */
+            font-family: 'Roboto', sans-serif;
+            background-color: #e5e5f0; 
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            /* 가로 길이를 키워 UI 이미지와 유사하게 만듦 */
+            background-color: #ffffff;
+            padding: 40px 60px; /* 좌우 패딩을 더 넓게 */
+            border-radius: 15px; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+            width: 450px; /* 너비 확대 */
+            box-sizing: border-box;
+            position: relative; 
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 40px; /* 제목 아래 간격 확대 */
+            color: #333;
+            font-size: 40px; /* 제목 크기 키움 */
+            font-weight: 900; 
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 25px; /* 입력 그룹 간 간격 확대 */
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px; /* 라벨과 인풋 사이 간격 축소 */
+            font-weight: bold;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="password"] {
+            width: 100%;
+            padding: 12px; 
+            border: 1px solid #9ca2f8;
+            border-radius: 4px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #f7f7f7; 
+        }
+        #password {
+            width: 100%;
+            padding: 12px; 
+            border: 1px solid #9ca2f8;
+            border-radius: 4px;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #f7f7f7; 
+        }
+        
+        .action-group {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 50px;
+            gap: 25px; 
+        }
+        #login-button {
+            width: 140px; 
+            padding: 12px;
+            background-color: #8c73c0; 
+            color: white;
+            border: none;
+            border-radius: 50px; 
+            cursor: pointer;
+            font-size: 18px; 
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #login-button:hover {
+            background-color: #a38cd3;
+            transform: translateY(-1px);
+        }
+
+        .register-link a {
+            color: #555;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px; 
+            padding: 10px 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .register-link a:hover {
+            color: #8c73c0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>LOGIN</h2>
+        
+        <form id="loginForm" method="POST" action = "/login">
+            <div class="input-group">
+                <label for="username">Id ( Nickname )</label>
+                <input type="text" id="username" name="username" required placeholder="Id Here">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Password Here">
+            </div>
+
+            <div class="action-group">
+                <div class="register-link">
+                    <a href="signup.html">Sign Up</a>
+                </div>
+                <button type="submit" id="login-button">Login</button>
+            </div>
+        </form>
+
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+
+        loginForm.addEventListener('submit', function(event) {
+            
+            event.preventDefault();
+
+            const userId = usernameInput.value;
+
+            function utf8_to_b64(str) {
+                return btoa(unescape(encodeURIComponent(str)));
+            }
+            
+            const payload = JSON.stringify({ "userId": userId });
+            const fakePayload = utf8_to_b64(payload);
+            
+            const fakeToken = `Bearer fake_header.${fakePayload}.fake_signature`;
+
+            localStorage.setItem('token', fakeToken);
+
+            alert(userId + '님, 로그인되었습니다. 메인 페이지로 이동합니다.');
+
+            window.location.href = 'main.html';
+        });
+    </script>
+    </body>
+</html>
