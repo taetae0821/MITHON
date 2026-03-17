@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const connection = mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'wlsdl0024.',
+    password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'MITHON'
 });
 
